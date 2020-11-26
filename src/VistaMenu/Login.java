@@ -14,6 +14,9 @@ import javax.swing.JOptionPane;
  * @author mabg
  */
 public class Login extends javax.swing.JFrame {
+        Connection con;
+	Statement pst;
+	ResultSet rs;
 
  
     public Login() {
@@ -42,6 +45,11 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("Contraseña");
 
         btnI.setText("Ingresar");
+        btnI.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnIMouseClicked(evt);
+            }
+        });
         btnI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIActionPerformed(evt);
@@ -90,6 +98,33 @@ public class Login extends javax.swing.JFrame {
 			
     }//GEN-LAST:event_btnIActionPerformed
 
+    private void btnIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIMouseClicked
+        
+        String user = Login.txtU.getText();
+        String pasw=String.valueOf(txtC.getPassword());
+        int resultado=0;
+       
+        
+        try {
+            con= (Connection) ConexionBD.getConnection();
+            pst = con.createStatement("SELECT * FROM usuario WHERE user=? and pass=?");
+            pst.setString(1, user);
+            pst.setString(2, pasw);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                Menu gui = new Menu();
+                gui.setVisible(true);
+                setVisible(false);
+                }else
+		JOptionPane.showMessageDialog(getParent(),"Contraseña y Usuario Incorrectos Intenta de nuevo");
+					
+        } catch (Exception e) {
+        }
+
+        }
+    
+    }//GEN-LAST:event_btnIMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -130,6 +165,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPasswordField txtC;
-    private javax.swing.JTextField txtU;
+    public static javax.swing.JTextField txtU;
     // End of variables declaration//GEN-END:variables
 }
