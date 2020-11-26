@@ -417,6 +417,7 @@ public class Peliculas extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
        Vistas v = new Vistas();
        v.setVisible(true);
+       v.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void btnEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEActionPerformed
@@ -480,11 +481,14 @@ public class Peliculas extends javax.swing.JFrame {
                         txtPre.setText(rs.getString(6));
                     }
                 }
-               JOptionPane.showMessageDialog(null, "DATOS NO ENCONTRADOS"); 
+               
             }catch(SQLException e){
             }
             
         }
+                JOptionPane.showMessageDialog(null, "DATOS NO ENCONTRADOS"); 
+                
+        
     }//GEN-LAST:event_btnBMouseClicked
 
     private void btnMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMMouseClicked
