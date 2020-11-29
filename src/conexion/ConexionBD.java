@@ -6,8 +6,12 @@ public class ConexionBD {
     static Connection con;
     private static PreparedStatement ps;
     private static ResultSet rs;
+    public static String u;
+    public static String c;
+    public static boolean sts;
     
     public static Connection getConnection(){
+        sts = false;
         String url = "jdbc:sqlserver://LAPTOP-TUIEGDGS:1433;databaseName=PeliClubBD";
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -16,7 +20,7 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "No Se pudo Establecer la conexion" + e.getMessage(),"Error de Conexion",JOptionPane.ERROR_MESSAGE);
         }
         try {
-            con = DriverManager.getConnection(url,"Miguel","1234");
+            con = DriverManager.getConnection(url,ConexionBD.u,ConexionBD.c);
         } catch (SQLException e) {
         }
         return con;
@@ -55,6 +59,19 @@ public class ConexionBD {
         }
         return null;
     }
+    
+    ///Login 
+    public static void getIngreso(String us, String cn){
+        ConexionBD.u = us;
+        ConexionBD.c = cn;
+        
+    }
+    
+    public static boolean getSt(){
+        return sts;
+    }
+    
+    
     public void cerrarConexion(){
         try {
             ps.close();
