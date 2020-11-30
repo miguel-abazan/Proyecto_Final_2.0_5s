@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package VistaMenu;
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.sql.*;
 import com.sun.jdi.connect.spi.Connection;
 import conexion.ConexionBD;
@@ -14,8 +15,9 @@ import javax.swing.JOptionPane;
  * @author mabg
  */
 public class Login extends javax.swing.JFrame {
-        public static String user;
-        public static String pass;
+        static Connection con;
+	//PreparedStatement pst;
+	ResultSet rs;
         
  
  
@@ -35,8 +37,8 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnI = new javax.swing.JButton();
-        txtU = new javax.swing.JTextField();
-        txtC = new javax.swing.JPasswordField();
+        t1 = new javax.swing.JTextField();
+        t2 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,8 +69,8 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
-                            .addComponent(txtC)
-                            .addComponent(txtU, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(t2)
+                            .addComponent(t1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(154, 154, 154)
                         .addComponent(btnI)))
@@ -80,11 +82,11 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(120, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(7, 7, 7)
-                .addComponent(txtU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(t1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(t2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(btnI)
                 .addGap(37, 37, 37))
@@ -96,19 +98,34 @@ public class Login extends javax.swing.JFrame {
     
     private void btnIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIActionPerformed
         // TODO add your handling code here:
-        conexion.ConexionBD.getIngreso(txtU.getText(),String.valueOf(txtC.getPassword()));
-        conexion.ConexionBD.getConnection();
-        boolean s = conexion.ConexionBD.getSt();
-        if (s) {
-            Menu m = new Menu();
-            m.setVisible(true);
-            
-        }else {
-            JOptionPane.showMessageDialog(null,"Usuario y Contraseña Incorrectos","Error De conexion",JOptionPane.ERROR_MESSAGE);
-        }
-        
-         
-			
+       /* String user = t1.getText();
+        String pasw = t2.getText();
+        if (user.equals("") || pasw.equals("")) {
+            JOptionPane.showMessageDialog(getParent(),
+                    "LLENAR DATOS");
+        } else {
+            try {
+                con = (Connection) ConexionBD.getConnection();
+                PreparedStatement pst = con.prepareStatement("SELECT * FROM usuarios WHERE nom_Usuario=? and pass=?");
+                pst.setString(1, user);
+                pst.setString(2, pasw);
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    Menu gui = new Menu();
+                    gui.setVisible(true);
+                    setVisible(false);
+
+                } else {
+                    JOptionPane.showMessageDialog(getParent(),
+                            "Contraseña y Usuario Incorrectos Intenta de nuevo");
+                }
+
+            } catch (Exception e2) {
+                // TODO: handle exception
+
+            }
+        }*/
+		
     }//GEN-LAST:event_btnIActionPerformed
 
     private void btnIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIMouseClicked
@@ -155,7 +172,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnI;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPasswordField txtC;
-    public static javax.swing.JTextField txtU;
+    public static javax.swing.JTextField t1;
+    private javax.swing.JPasswordField t2;
     // End of variables declaration//GEN-END:variables
 }
