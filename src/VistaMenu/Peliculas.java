@@ -75,8 +75,8 @@ public class Peliculas extends javax.swing.JFrame {
         btnM = new javax.swing.JButton();
         btnE = new javax.swing.JButton();
         btnB = new javax.swing.JButton();
-        info = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        info2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -130,6 +130,12 @@ public class Peliculas extends javax.swing.JFrame {
         jLabel5.setText("Clasificación:");
 
         jLabel6.setText("Nom. Director Película:");
+
+        txtId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtIdKeyReleased(evt);
+            }
+        });
 
         txtPre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -237,14 +243,15 @@ public class Peliculas extends javax.swing.JFrame {
                     .addComponent(cbCatg, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtDir)
                     .addComponent(txtPre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
-                        .addGap(70, 70, 70))))
+                        .addGap(70, 70, 70))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(info2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,7 +260,7 @@ public class Peliculas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(info2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -493,18 +500,82 @@ public class Peliculas extends javax.swing.JFrame {
 
     private void btnMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMMouseClicked
         // TODO add your handling code here:
-         int Codigo=Integer.parseInt(txtId.getText());
-        String nomp=txtNom.getText();
-        String cat=String.valueOf(cbCatg.getSelectedItem());
-        String clas=String.valueOf(cbCla.getSelectedItem());
-        String dir=txtDir.getText();
-        int pre =Integer.parseInt(txtPre.getText());
-        ProcedimientosAlma.ModificarDatos(Codigo,nomp, cat, clas, dir, pre);
-        cargarPeliculas();
+        if(txtId.getText().equals("")){
+           JOptionPane.showMessageDialog(getParent(), " LLENAR DATOS", "AVISO", JOptionPane.INFORMATION_MESSAGE);				 
+        }else {
+            if(info2.getText().equals("NO SE ENCONTRÓ ID")){
+                JOptionPane.showMessageDialog(getParent(), "NO SE PUEDE MODIFICAR UN REGISTRO CON FOLIO EXISTENTE", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+						
+            }else {
+                int opcion = JOptionPane.showConfirmDialog(null, "¿DESEA MODIFICAR EL REGISTRO?", "AVISO", JOptionPane.WARNING_MESSAGE);
+		if(opcion == JOptionPane.YES_OPTION){
+                    try{
+                        boolean res = new PeliculaDAO().modificarPelicula(new Pelicula(Integer.parseInt(txtId.getText()),txtNom.getText(),String.valueOf(cbCatg.getSelectedItem()),String.valueOf(cbCla.getSelectedItem()),txtDir.getText(),Integer.parseInt(txtPre.getText())));
+                      JOptionPane.showConfirmDialog(null, "¿DESEA MODIFICAR EL REGISTRO?", "AVISO", JOptionPane.WARNING_MESSAGE);
+		  
+                    }catch (Exception e){
+                        
+                    }
+                    cargarPeliculas();
+                }
+                if(opcion == JOptionPane.CLOSED_OPTION){
+                    
+                }
+            }
+        }
+            
     
        
     }//GEN-LAST:event_btnMMouseClicked
 
+    public void validacion() {
+		
+		String mensaje = PeliculaDAO.buscarFolio(txtId.getText());
+		
+		if(mensaje.equals("Existe Folio")) {
+			
+			info2.setText("Folio YA Registrado");
+			
+		}else {
+			
+			info2.setText("Folio NO Registrado");
+		}
+	}
+    public void buscarModificar(String folio) {
+    	   Connection con;
+
+        try {
+            con = ConexionBD.getConnection();
+            String consElim = "SELECT * FROM Peliculas WHERE ID_Pelicula = ?";
+            PreparedStatement pst = con.prepareStatement(consElim);
+            pst.setString(1, folio);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+
+                info2.setText("SE ENCONTRÓ ID");
+                txtNom.setText(rs.getString("nom_Pelicula"));
+                cbCatg.setSelectedItem(rs.getString("Catg_Pelicula"));
+                cbCla.setSelectedItem(rs.getString("Clasificacion_Peli"));
+                txtDir.setText(rs.getString("Nom_Director_Peli"));
+                txtPre.setText(rs.getString("Precio"));
+
+            } else {
+                info2.setText("NO SE ENCONTRÓ ID");
+                txtNom.setText("");
+                cbCatg.setSelectedIndex(0);
+                cbCla.setSelectedIndex(0);
+                txtDir.setText("");
+                txtPre.setText("");
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+
+    }
+
+    
     private void txtPreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPreKeyTyped
         // TODO add your handling code here:
         char caracter = evt.getKeyChar(); 
@@ -517,7 +588,7 @@ public class Peliculas extends javax.swing.JFrame {
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
         
     }//GEN-LAST:event_jMenu3MouseClicked
-
+// Metodo Para Mandar a LLamaR el reporter
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         ConexionBD con = new ConexionBD();
@@ -543,6 +614,11 @@ public class Peliculas extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKeyReleased
+        // TODO add your handling code here:
+        buscarModificar(txtId.getText());
+    }//GEN-LAST:event_txtIdKeyReleased
 
      
     /**
@@ -587,7 +663,7 @@ public class Peliculas extends javax.swing.JFrame {
     private javax.swing.JButton btnM;
     private javax.swing.JComboBox<String> cbCatg;
     private javax.swing.JComboBox<String> cbCla;
-    private javax.swing.JLabel info;
+    private javax.swing.JLabel info2;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
