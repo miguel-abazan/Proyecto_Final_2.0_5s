@@ -11,25 +11,26 @@ public class ConexionBD {
     public static boolean sts;
     
     public static Connection getConnection(){
-        sts = false;
-        String url = "jdbc:sqlserver://LAPTOP-TUIEGDGS:1433;databaseName=PeliClubBD";
+        
+        
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            
+            String url = "jdbc:sqlserver://LAPTOP-TUIEGDGS:1433;databaseName=PeliClubBD";
+            con = DriverManager.getConnection(url,"Miguel","1234");
         } catch (ClassNotFoundException e) {
+            
             JOptionPane.showMessageDialog(null, "No Se pudo Establecer la conexion" + e.getMessage(),"Error de Conexion",JOptionPane.ERROR_MESSAGE);
-        }
-        try {
-            con = DriverManager.getConnection(url,ConexionBD.u,ConexionBD.c);
+            
         } catch (SQLException e) {
         }
         return con;
     }
+    
     public boolean ejecutarInstruccion(String sql){
         try {
             ps = con.prepareStatement(sql);
             int r = ps.executeUpdate(sql);
-            return r ==1 ? true : false;
+            return r == 1 ? true : false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,15 +62,6 @@ public class ConexionBD {
     }
     
     ///Login 
-    public static void getIngreso(String us, String cn){
-        ConexionBD.u = us;
-        ConexionBD.c = cn;
-        
-    }
-    
-    public static boolean getSt(){
-        return sts;
-    }
     
     
     public void cerrarConexion(){
