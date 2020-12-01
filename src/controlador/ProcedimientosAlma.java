@@ -33,39 +33,18 @@ public class ProcedimientosAlma extends Pelicula{
         entrada.execute();
     }
     
-    public static void ModificarPelicula(int a,String nom,String cat,String cla,String dir,int pre)throws SQLException{
-        CallableStatement mod = conexion.ConexionBD.getConnection().prepareCall("{call ActualizarPelicula(?,?,?,?,?,?)}");
-        mod.setInt(0, a);
-        mod.setString(1, nom);
-        mod.setString(2, cat);
-        mod.setString(3, cla);
-        mod.setString(4, dir);
-        mod.setInt(5, pre);
-       
+    public static void modPelis(Pelicula a) throws SQLException{
+        
+        CallableStatement mod = conexion.ConexionBD.getConnection().prepareCall("{CALL ModificarDatos(?,?,?,?,?,?,?)}");
+        mod.setInt(1, a.getIdPeli());
+        mod.setString(2, a.getNomPeli());
+        mod.setString(3, a.getCategoria());
+        mod.setString(4, a.getClasific());
+        mod.setString(5, a.getNomDirPeli());
+        mod.setInt(6, a.getPrecio());
+        mod.registerOutParameter(7, java.sql.Types.VARCHAR, 100);
         mod.execute();
+        
     }
-    
-    public static String ModificarDatos(int id,String nom, String catg, String clas, String dirpeli,int pre){
-            Connection cnn; 
-            String Modificar="{CALL ModificarDatos(?,?,?,?,?,?)}";
-            String resultado;
-        try{
-           cnn=ConexionBD.getConnection();
-           CallableStatement cmst= cnn.prepareCall(Modificar);
-           cmst.setInt(1, id);
-           cmst.setString(2,nom);
-           cmst.setString(3,catg);
-           cmst.setString(4,clas);
-           cmst.setString(5, dirpeli);
-           cmst.setInt(6, pre);
-           cmst.registerOutParameter(7, java.sql.Types.VARCHAR,100);
-           cmst.execute();
-           resultado=cmst.getString(7);
-           cnn.close();  
-        }catch(SQLException sqlex){
-           resultado="No se realizo la operacion" +sqlex.getMessage();
-        }catch(Exception ex){System.out.println(ex.getMessage());
-           resultado="No se realizo la operacion" +ex.getMessage();
-        }return resultado;}
-   
+
 }
