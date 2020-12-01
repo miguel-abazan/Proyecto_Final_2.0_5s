@@ -372,7 +372,7 @@ public class Peliculas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGActionPerformed
 
     private void btnGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGMouseClicked
-       if(txtNom.getText().isEmpty()){
+       if(txtNom.getText().isEmpty()||txtNom.getText().equals("") || cbCatg.getSelectedIndex()==0 || cbCla.getSelectedIndex()==0 || txtDir.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Ingrese los datos Correctamente", "Error", JOptionPane.ERROR_MESSAGE);
             
         } else {
@@ -450,6 +450,7 @@ public class Peliculas extends javax.swing.JFrame {
                 txtDir.requestFocus();
                 txtPre.requestFocus();
                 txtId.requestFocus();
+                JOptionPane.showMessageDialog(this, "Regiatro eliminadops Correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException e) {
             }
         }
@@ -500,32 +501,40 @@ public class Peliculas extends javax.swing.JFrame {
 
     private void btnMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMMouseClicked
         // TODO add your handling code here:
-        if(txtId.getText().equals("")){
+      
+         if(txtId.getText().equals("") ||txtNom.getText().equals("") || cbCatg.getSelectedIndex()==0 || cbCla.getSelectedIndex()==0 || txtDir.getText().equals("")){
            JOptionPane.showMessageDialog(getParent(), " LLENAR DATOS", "AVISO", JOptionPane.INFORMATION_MESSAGE);				 
         }else {
             if(info2.getText().equals("NO SE ENCONTRÓ ID")){
-                JOptionPane.showMessageDialog(getParent(), "NO SE PUEDE MODIFICAR UN REGISTRO CON FOLIO EXISTENTE", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(getParent(), "NO SE PUEDE MODIFICAR UN REGISTRO CON FOLIO NO EXISTENTE", "AVISO", JOptionPane.INFORMATION_MESSAGE);
 						
             }else {
                 int opcion = JOptionPane.showConfirmDialog(null, "¿DESEA MODIFICAR EL REGISTRO?", "AVISO", JOptionPane.WARNING_MESSAGE);
 		if(opcion == JOptionPane.YES_OPTION){
-                    try{
-                        boolean res = new PeliculaDAO().modificarPelicula(new Pelicula(Integer.parseInt(txtId.getText()),txtNom.getText(),String.valueOf(cbCatg.getSelectedItem()),String.valueOf(cbCla.getSelectedItem()),txtDir.getText(),Integer.parseInt(txtPre.getText())));
-                      JOptionPane.showConfirmDialog(null, "¿DESEA MODIFICAR EL REGISTRO?", "AVISO", JOptionPane.WARNING_MESSAGE);
-		  
-                    }catch (Exception e){
-                        
+                    try {
+                       ProcedimientosAlma.modPelis(new Pelicula(Integer.parseInt(txtId.getText()), txtNom.getText(), String.valueOf(cbCatg.getSelectedItem()), String.valueOf(cbCla.getSelectedItem()), txtDir.getText(), Integer.parseInt(txtPre.getText())));
+                    JOptionPane.showMessageDialog(getParent(), "SE GUARDARON LOS CAMBIOS");
+                    txtId.setText("");
+                    txtNom.setText("");
+                    cbCatg.setSelectedIndex(0);
+                    cbCla.setSelectedIndex(0);
+                    txtDir.setText("");
+                    txtPre.setText("");
+                    txtNom.requestFocus();
+                    txtDir.requestFocus();
+                    txtPre.requestFocus();
+                    txtId.requestFocus();  
+                    } catch (SQLException e) {
                     }
-                    cargarPeliculas();
-                }
-                if(opcion == JOptionPane.CLOSED_OPTION){
-                    
-                }
+      
+                   
             }
         }
-            
-    
+            cargarPeliculas();
+        }
        
+    
+
     }//GEN-LAST:event_btnMMouseClicked
 
     public void validacion() {
