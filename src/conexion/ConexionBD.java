@@ -8,6 +8,7 @@ public class ConexionBD {
     private static ResultSet rs;
     public static String u;
     public static String c;
+    public static Statement stm;
     public static boolean sts;
     
     public static Connection getConnection(){
@@ -26,15 +27,39 @@ public class ConexionBD {
         return con;
     }
     
-    public boolean ejecutarInstruccion(String sql){
+   public boolean ejecutarInstruccion(String sql){
+        boolean res = false;
         try {
+            stm = con.createStatement(); 
+            stm.execute(sql); 
+            res = true;  
+        } catch (Exception ex) {
+           //Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                con.close();
+            } catch (Exception ex) {
+             //Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);    
+            }
+        }
+        return res; 
+    }
+    public boolean ejecutarInstrucciones(String sql) {
+
+        try {
+
             ps = con.prepareStatement(sql);
+
+            //stm = con.createStatement();
             int r = ps.executeUpdate(sql);
             return r == 1 ? true : false;
         } catch (SQLException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return false;
+
     }
     
     public static ResultSet ejecutarConsultaDeRegistros(String sql){
