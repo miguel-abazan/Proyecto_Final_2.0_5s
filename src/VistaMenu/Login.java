@@ -23,6 +23,7 @@ public class Login extends javax.swing.JFrame {
  
     public Login() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -98,38 +99,19 @@ public class Login extends javax.swing.JFrame {
     
     private void btnIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIActionPerformed
         // TODO add your handling code here:
-       /* String user = t1.getText();
-        String pasw = t2.getText();
-        if (user.equals("") || pasw.equals("")) {
-            JOptionPane.showMessageDialog(getParent(),
-                    "LLENAR DATOS");
-        } else {
-            try {
-                con = (Connection) ConexionBD.getConnection();
-                PreparedStatement pst = con.prepareStatement("SELECT * FROM usuarios WHERE nom_Usuario=? and pass=?");
-                pst.setString(1, user);
-                pst.setString(2, pasw);
-                rs = pst.executeQuery();
-                if (rs.next()) {
-                    Menu gui = new Menu();
-                    gui.setVisible(true);
-                    setVisible(false);
-
-                } else {
-                    JOptionPane.showMessageDialog(getParent(),
-                            "Contraseña y Usuario Incorrectos Intenta de nuevo");
-                }
-
-            } catch (Exception e2) {
-                // TODO: handle exception
-
-            }
-        }*/
+        
+       
 		
     }//GEN-LAST:event_btnIActionPerformed
 
     private void btnIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIMouseClicked
-        
+       ConexionBD nf = new ConexionBD();
+       nf.getConnection();
+       if(nf.Login(t1.getText(), t2.getText())== 1){
+         m.setVisible(true);
+         this.setVisible(false);
+       }
+       
         
     }//GEN-LAST:event_btnIMouseClicked
 
@@ -163,7 +145,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                l.setVisible(true);
             }
         });
     }
@@ -175,4 +157,8 @@ public class Login extends javax.swing.JFrame {
     public static javax.swing.JTextField t1;
     private javax.swing.JPasswordField t2;
     // End of variables declaration//GEN-END:variables
+
+public static Login l= new Login();
+public static Menu m = new Menu();
+
 }
