@@ -27,6 +27,7 @@ public class Peliculas extends javax.swing.JFrame {
     
     public Peliculas() {
         initComponents();
+        this.setLocationRelativeTo(null);
         cargarPeliculas();
         
     }
@@ -243,10 +244,11 @@ public class Peliculas extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(info2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(info2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -285,6 +287,11 @@ public class Peliculas extends javax.swing.JFrame {
         jMenu1.setText("Menú");
 
         jMenuItem1.setText("Regresar");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseClicked(evt);
+            }
+        });
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -349,6 +356,8 @@ public class Peliculas extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         Menu m = new Menu();
         m.setVisible(true);
+        this.setVisible(false);
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGActionPerformed
@@ -572,6 +581,11 @@ public class Peliculas extends javax.swing.JFrame {
         buscarModificar(txtId.getText());
     }//GEN-LAST:event_txtIdKeyReleased
 
+    private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenuItem1MouseClicked
+
      
     /**
      * @param args the command line arguments
@@ -638,4 +652,6 @@ public class Peliculas extends javax.swing.JFrame {
     private javax.swing.JTextField txtNom;
     private javax.swing.JTextField txtPre;
     // End of variables declaration//GEN-END:variables
+
+public static Menu ms= new Menu();
 }
