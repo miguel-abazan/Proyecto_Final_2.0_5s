@@ -2,17 +2,17 @@ package conexion;
 import java.sql.*;
 import javax.swing.*;
 public class ConexionBD {
-    private String r;
+   
     static Connection con;
     private static PreparedStatement ps;
     private static ResultSet rs;
-    public static String u;
-    public static String c;
-    public static Statement stm;
-    public static boolean sts;
+    private static String u;
+    private static String c;
+    private static Statement stm;
+    private static boolean sts;
     
     public static Connection getConnection(){
-        
+       
         
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -87,8 +87,25 @@ public class ConexionBD {
     }
     
     ///Login 
-    
-    
+  public int Login(String user, String co){
+      
+      Integer rslt=0;
+      try {
+          Statement ejc = ConexionBD.con.createStatement();
+          ResultSet res = ejc.executeQuery("SELECT * FROM Usuarios WHERE nom_Usuario='"+ user+ "' AND pass='"+co+"'");
+          
+          if(res.next()){
+              JOptionPane.showMessageDialog(null, "Incgreso Correcto");
+              rslt =1;
+          }else{
+              JOptionPane.showMessageDialog(null, "Error EN contraseña/ usuario");
+              rslt =0;
+          }
+      } catch (Exception e) {
+          JOptionPane.showMessageDialog(null, "Errero Consulta"+e.getMessage(),e.getMessage(), JOptionPane.ERROR_MESSAGE);
+      }
+      return rslt;
+  }
     public void cerrarConexion(){
         try {
             ps.close();
