@@ -77,6 +77,7 @@ public class Peliculas extends javax.swing.JFrame {
         btnE = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         info2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -192,6 +193,13 @@ public class Peliculas extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Limpiar Cajas");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -236,7 +244,9 @@ public class Peliculas extends javax.swing.JFrame {
                                     .addComponent(txtDir)
                                     .addComponent(txtPre))
                                 .addGap(36, 36, 36)
-                                .addComponent(info2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(info2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton2))))
                         .addGap(0, 77, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -270,7 +280,8 @@ public class Peliculas extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))))
+                            .addComponent(jLabel7)
+                            .addComponent(jButton2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -468,6 +479,7 @@ public class Peliculas extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(getParent(), "SE GUARDARON LOS CAMBIOS");
                     txtId.setText("");
                     txtNom.setText("");
+                    info2.setText("");
                     cbCatg.setSelectedIndex(0);
                     cbCla.setSelectedIndex(0);
                     txtDir.setText("");
@@ -519,14 +531,17 @@ public class Peliculas extends javax.swing.JFrame {
                 cbCla.setSelectedItem(rs.getString("Clasificacion_Peli"));
                 txtDir.setText(rs.getString("Nom_Director_Peli"));
                 txtPre.setText(rs.getString("Precio"));
+                
 
             } else {
                 info2.setText("NO SE ENCONTRÓ ID");
+                txtId.setText("");
                 txtNom.setText("");
                 cbCatg.setSelectedIndex(0);
                 cbCla.setSelectedIndex(0);
                 txtDir.setText("");
                 txtPre.setText("");
+                
             }
 
         } catch (Exception e) {
@@ -586,6 +601,18 @@ public class Peliculas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem1MouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        txtId.setText("");
+        txtNom.setText("");
+        info2.setText("");
+        cbCatg.setSelectedIndex(0);
+        cbCla.setSelectedIndex(0);
+        txtDir.setText("");
+        txtPre.setText("");
+        info2.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
      
     /**
      * @param args the command line arguments
@@ -630,6 +657,7 @@ public class Peliculas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbCla;
     private javax.swing.JLabel info2;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

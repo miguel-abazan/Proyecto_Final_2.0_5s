@@ -105,7 +105,8 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIActionPerformed
 
     private void btnIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIMouseClicked
-       ConexionBD nf = new ConexionBD();
+       btnI.requestFocus();
+        ConexionBD nf = new ConexionBD();
        nf.getConnection();
        if(nf.Login(t1.getText(), t2.getText())== 1){
          m.setVisible(true);
