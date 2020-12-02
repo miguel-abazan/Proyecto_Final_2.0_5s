@@ -26,6 +26,7 @@ public class Graficar extends javax.swing.JFrame {
      */
     public Graficar() {
         initComponents();
+        this.setLocationRelativeTo(null);
         cargarCantPeliculas();
     }
 
