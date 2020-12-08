@@ -27,9 +27,9 @@ public class ProcedimientosAlma extends Pelicula{
        
         
     }
-    public static void BuscarPelicula(int a)throws SQLException{
+    public static void BuscarPelicula(String a)throws SQLException{
         CallableStatement entrada = conexion.ConexionBD.getConnection().prepareCall("{call BuscarPelicula(?)}");
-        entrada.setInt(1, a);
+        entrada.setString(1, a);
         entrada.execute();
     }
     
