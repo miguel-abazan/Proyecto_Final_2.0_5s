@@ -554,7 +554,7 @@ public class Peliculas extends javax.swing.JFrame {
 
             } else {
                 info2.setText("NO SE ENCONTRÓ ID");
-                txtId.setText("");
+               
                 txtNom.setText("");
                 cbCatg.setSelectedIndex(0);
                 cbCla.setSelectedIndex(0);
